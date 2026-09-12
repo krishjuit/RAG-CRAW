@@ -1,0 +1,15 @@
+[theme]
+# The main accent color (used for the loading spinner, active buttons, etc.)
+primaryColor = "#6366f1"
+
+# The main background color of the chat area
+backgroundColor = "#0e1117"
+
+# The background color for the sidebar and the user's chat bubbles
+secondaryBackgroundColor = "#1e212b"
+
+# The color of all the text
+textColor = "#fafafa"
+
+# The font style (options: "sans serif", "serif", "monospace")
+font = "sans serif"

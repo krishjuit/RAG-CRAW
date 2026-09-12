@@ -1,0 +1,24 @@
+name: Keep Streamlit Awake
+
+on:
+  schedule:
+    # Runs at minute 0 past every 8th hour (e.g., 00:00, 08:00, 16:00 UTC)
+    - cron: "0 */8 * * *"
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Create keepalive commit
+        run: |
+          date +%s > .keepalive
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .keepalive
+          git commit -m "Automated keepalive commit to prevent hibernation" || echo "No changes to commit"
+          git push origin main

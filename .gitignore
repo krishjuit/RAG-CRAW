@@ -1,0 +1,39 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+
+# --- Environment Secrets ---
+.env
+.env.local
+.streamlit/secrets.toml
+
+# --- Project Specific Scraping Garbage ---
+page.html
+page_*.html
+*.log
+geckodriver.log
+
+# --- VS Code & IDE ---
+.vscode/
+.DS_Store
+
+# --- Vector Database Storage ---
+faiss_index/
+vector_cache/
+*.faiss
+*.pkl
+
+# --- Downloaded AI Models (Failsafes) ---
+# Prevents FlashRank or HuggingFace from accidentally caching models in the repo
+flashrank_models/
+nltk_data/
+
+#testing
+
+rag_baseline_scores.csv
+rag_summary.csv
+evaluate_rag.py
+golden_dataset.json
