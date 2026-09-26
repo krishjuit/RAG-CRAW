@@ -1,7 +1,13 @@
 import os
 import sys
+
+# Safeguard against protobuf _upb metaclass incompatibility on Python >= 3.14
+if sys.version_info >= (3, 14):
+    os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
 from dotenv import load_dotenv
 from rag import RAG
+
 
 # Ensure Windows terminal handles UTF-8 correctly
 if sys.platform == "win32":

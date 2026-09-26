@@ -1,4 +1,5 @@
-streamlit
+streamlit==1.60.0
+protobuf==4.25.9
 langchain==0.2.16
 langchain-community==0.2.16
 langchain-core==0.2.43

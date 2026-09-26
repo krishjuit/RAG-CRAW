@@ -1,0 +1,28 @@
+[project]
+name = "rag-craw"
+version = "0.1.0"
+description = "Hardened Enterprise-Grade Ingestion, Hybrid Search & Reranking RAG System"
+readme = "README.md"
+requires-python = ">=3.12, <3.13"
+dependencies = [
+    "streamlit==1.60.0",
+    "protobuf==4.25.9",
+    "langchain==0.2.16",
+    "langchain-community==0.2.16",
+    "langchain-core==0.2.43",
+    "langchain-text-splitters==0.2.4",
+    "langchain-google-genai",
+    "beautifulsoup4",
+    "markdownify",
+    "selenium",
+    "faiss-cpu",
+    "flashrank",
+    "rank_bm25",
+    "python-dotenv",
+    "numpy<2.0.0",
+    "nltk",
+    "requests",
+]
+
+[tool.uv]
+package = false

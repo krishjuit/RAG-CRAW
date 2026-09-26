@@ -1,8 +1,15 @@
+import os
+import sys
+
+# Safeguard against protobuf _upb metaclass incompatibility on Python >= 3.14
+if sys.version_info >= (3, 14):
+    os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
 import streamlit as st
 from rag import RAG
 from dotenv import load_dotenv
-import os
 import time
+
 
 # 1. Setup Page Configuration
 st.set_page_config(page_title="RAG-CRAW", page_icon="🕸️", layout="centered", initial_sidebar_state="expanded")
