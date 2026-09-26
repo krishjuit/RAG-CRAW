@@ -1,38 +1,74 @@
-# --- Python ---
+# --- Python & Virtual Environments ---
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 venv/
 .venv/
+env/
+ENV/
+env.bak/
+venv.bak/
 
 # --- Environment Secrets ---
 .env
-.env.local
+.env.*
+!.env.example
 .streamlit/secrets.toml
 
-# --- Project Specific Scraping Garbage ---
+# --- Project Specific Scraping & Driver Logs ---
 page.html
 page_*.html
 *.log
 geckodriver.log
+chromedriver.log
+selenium.log
 
-# --- VS Code & IDE ---
+# --- VS Code & IDE & OS ---
 .vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.bak
+*.tmp
 .DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
 
-# --- Vector Database Storage ---
+# --- Vector Database Storage & Caches ---
 faiss_index/
 vector_cache/
 *.faiss
 *.pkl
+.cache/
 
 # --- Downloaded AI Models (Failsafes) ---
 # Prevents FlashRank or HuggingFace from accidentally caching models in the repo
 flashrank_models/
 nltk_data/
 
-#testing
-
+# --- Testing & Evaluation Artifacts ---
 rag_baseline_scores.csv
 rag_summary.csv
 evaluate_rag.py

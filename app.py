@@ -1,15 +1,48 @@
-from rag import RAG
 import os
+import sys
 from dotenv import load_dotenv
+from rag import RAG
+
+# Ensure Windows terminal handles UTF-8 correctly
+if sys.platform == "win32":
+    if hasattr(sys.stdout, "reconfigure"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+    if hasattr(sys.stderr, "reconfigure"):
+        try:
+            sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
 
 load_dotenv('.env')
 
+api_key = os.getenv('GOOGLE_API_KEY')
+if not api_key:
+    print("Error: GOOGLE_API_KEY not found in environment or .env file!")
+    print("Please add GOOGLE_API_KEY=your_key to your .env file.")
+    sys.exit(1)
+
 website_url = "https://winone.in/"
-# website_url = "https://degrees.apps.asu.edu/masters-phd/major/ASU00/ESCOMSCMS/computer-science-ms?init=false&nopassive=true"
-# question = "what are the deadlines for the applicaiton?"
 question = "summarize the website"
 
-# chatbot = RAG(website_url, os.getenv('GOOGLE_API_KEY'))
-chatbot = RAG(website_url, os.getenv('GOOGLE_API_KEY'), recursive_count=500)
+print(f"Loading and processing {website_url}...")
+chatbot = RAG(website_url, api_key)
+
+print(f"\nAsking question: {question}\n")
 response = chatbot.get_response(question)
-print(response)
+
+print("=" * 60)
+print("ANSWER:")
+print("=" * 60)
+print(response.get("answer", "No answer generated."))
+
+sources = response.get("sources", [])
+if sources:
+    print("\n" + "=" * 60)
+    print(f"SOURCES ({len(sources)}):")
+    print("=" * 60)
+    for i, s in enumerate(sources, 1):
+        print(f"\n--- Source {i} ---")
+        print(s[:400] + ("..." if len(s) > 400 else ""))

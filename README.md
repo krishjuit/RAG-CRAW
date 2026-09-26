@@ -109,7 +109,7 @@ Try the app instantly without any local setup:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/soumyadeep-rc/RAG-CRAW.git
+git clone https://github.com/krishjuit/RAG-CRAW.git
 cd RAG-CRAW
 ```
 
@@ -152,7 +152,7 @@ The pipeline was benchmarked using the **RAGAS framework** to optimize hyperpara
 
 ## License
 
-Distributed under the [MIT LICENSE](https://github.com/soumyadeep-rc/RAG-CRAW/blob/main/LICENSE)
+Distributed under the [MIT LICENSE](https://github.com/krishjuit/RAG-CRAW/blob/main/LICENSE)
 
 ---
 

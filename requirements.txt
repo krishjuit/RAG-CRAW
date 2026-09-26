@@ -11,5 +11,6 @@ faiss-cpu
 flashrank
 rank_bm25
 python-dotenv
-numpy<2.0.0
+numpy
 nltk
+requests

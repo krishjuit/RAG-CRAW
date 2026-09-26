@@ -9,7 +9,13 @@ st.set_page_config(page_title="RAG-CRAW", page_icon="🕸️", layout="centered"
 
 # 2. Load API Key
 load_dotenv('.env')
-MY_API_KEY = os.getenv('GOOGLE_API_KEY')
+DEFAULT_API_KEY = os.getenv('GOOGLE_API_KEY', '')
+if not DEFAULT_API_KEY:
+    try:
+        DEFAULT_API_KEY = st.secrets.get('GOOGLE_API_KEY', '')
+    except Exception:
+        pass
+
 
 # 3. Custom CSS for UI Polish
 ui_styling = """
@@ -64,16 +70,31 @@ if 'messages' not in st.session_state:
 with st.sidebar:
     st.title("⚙️ Setup")
     
+    api_key_input = st.text_input(
+        "Google Gemini API Key:",
+        value=st.session_state.get("user_api_key", DEFAULT_API_KEY),
+        type="password",
+        placeholder="Paste your AI Studio key...",
+        help="Obtain key from https://aistudio.google.com/app/apikey"
+    )
+    st.session_state["user_api_key"] = api_key_input.strip()
+
     website_url = st.text_input("Enter website URL:", placeholder="https://en.wikipedia.org/wiki/Virat_Kohli")
     
     if st.button("Load & Vectorize Website", type="primary", use_container_width=True):
-        if not website_url:
-            st.warning("Please enter a URL first.")
-        elif not MY_API_KEY:
-            st.error("Backend API Key missing!")
+        active_key = st.session_state.get("user_api_key") or DEFAULT_API_KEY
+        target_url = website_url.strip()
+        
+        if not target_url:
+            st.warning("Please enter a website URL first.")
+        elif not active_key:
+            st.error("Google Gemini API Key is missing! Enter it above or set GOOGLE_API_KEY in .env.")
         else:
+            if not target_url.startswith(('http://', 'https://')):
+                target_url = 'https://' + target_url
+
             st.session_state['crawl_logs'] = []
-            st.session_state['messages'] = [{"role": "assistant", "content": f"✅ Successfully connected to `{website_url}`. Ask me anything!", "sources": []}]
+            st.session_state['messages'] = [{"role": "assistant", "content": f"✅ Successfully connected to `{target_url}`. Ask me anything!", "sources": []}]
             
             with st.status("Initializing RAG Engine...", expanded=True) as status:
                 def log_update(msg):
@@ -81,9 +102,9 @@ with st.sidebar:
                     st.session_state['crawl_logs'].append(msg)
                 
                 try:
-                    st.session_state['resource_processor'] = RAG(website_url, MY_API_KEY, write_function=log_update)
+                    st.session_state['resource_processor'] = RAG(target_url, active_key, write_function=log_update)
                     st.session_state['data_loaded'] = True
-                    st.session_state['current_url'] = website_url
+                    st.session_state['current_url'] = target_url
                     status.update(label="System Ready!", state="complete", expanded=False)
                     st.toast("Database loaded!", icon="🚀")
                     time.sleep(1.0)
@@ -105,10 +126,10 @@ with st.sidebar:
 
     st.markdown("""
     <div class="sidebar-footer">
-        <div style="margin-bottom: 5px;">Built by <b>Soumyadeep Roy Chowdhury</b></div>
+        <div style="margin-bottom: 5px;">Built by <b>Krish Agarwal</b></div>
         <div style="font-size: 11px; margin-bottom: 10px;">Jadavpur University IT '28</div>
-        <a href="https://github.com/soumyadeep-rc" target="_blank">GitHub</a> • 
-        <a href="https://www.linkedin.com/in/soumyadeep-roy-chowdhury101/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/krishjuit" target="_blank">GitHub</a> • 
+        <a href="www.linkedin.com/in/krish-agarwal-b67b57321" target="_blank">LinkedIn</a>
     </div>
     """, unsafe_allow_html=True)
 
